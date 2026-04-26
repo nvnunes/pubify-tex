@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pubify-tex"
+version = "1.0.0"
+description = "LaTeX layout and export support for pubify Matplotlib figures"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+  "pubify-mpl>=1.2.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "build>=1.2",
+  "mkdocs>=1.6",
+  "mkdocstrings[python]>=0.30",
+  "twine>=5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/nvnunes/pubify-tex"
+Documentation = "https://nvnunes.github.io/pubify-tex/"
+Repository = "https://github.com/nvnunes/pubify-tex"
+Changelog = "https://github.com/nvnunes/pubify-tex/blob/main/CHANGELOG.md"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"pubify_tex.assets" = ["*.sty"]
+
+[tool.setuptools.exclude-package-data]
+"*" = [".DS_Store"]

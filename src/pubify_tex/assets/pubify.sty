@@ -1,0 +1,396 @@
+\ProvidesPackage{pubify}[2026/03/24 Figure layout helpers]
+
+\RequirePackage{kvoptions}
+\RequirePackage{graphicx}
+\RequirePackage{subcaption}
+\RequirePackage{etoolbox}
+
+\captionsetup[subfigure]{belowskip=0pt}
+
+\SetupKeyvalOptions{family=fig,prefix=fig@}
+\DeclareStringOption[]{template}
+\DeclareBoolOption[false]{debug}
+\ProcessKeyvalOptions*
+
+\newlength{\figcolgap}
+\setlength{\figcolgap}{0.02\textwidth}
+
+\newlength{\figcaptionallowance}
+\setlength{\figcaptionallowance}{0.08in}
+
+\providecommand{\figbasefontsizept}{12.0}
+
+\newlength{\figcaptionlineheight}
+\setlength{\figcaptionlineheight}{13.6pt}
+
+\newlength{\figsubcaptionallowance}
+\setlength{\figsubcaptionallowance}{0.08in}
+
+\newlength{\figsubcaptionlineheight}
+\setlength{\figsubcaptionlineheight}{13.6pt}
+
+\newlength{\figsubcaptionskip}
+\setlength{\figsubcaptionskip}{0.08in}
+
+\newlength{\figrowgap}
+\setlength{\figrowgap}{0.11in}
+
+\newlength{\figcaptionskip}
+\setlength{\figcaptionskip}{0.11in}
+
+\newlength{\figpostcaptionskip}
+\setlength{\figpostcaptionskip}{0in}
+
+\newlength{\figfullpageheight}
+\setlength{\figfullpageheight}{\dimexpr\textheight-\figcaptionallowance-\figcaptionskip-\figpostcaptionskip\relax}
+
+\newlength{\figstackheight}
+\setlength{\figstackheight}{\dimexpr\textheight-\figcaptionallowance-\figcaptionskip-\figpostcaptionskip\relax}
+
+\makeatletter
+\newcommand{\figdebugmessage}[1]{%
+  \iffig@debug
+    \typeout{PUBIFY-DEBUG #1}%
+  \fi
+}
+
+\newcommand{\figcapturetypography}{%
+  \begingroup
+    \normalfont\normalsize
+    \xdef\figbasefontsizept{\f@size}%
+  \endgroup
+  \begingroup
+    \normalfont\small
+    \global\figcaptionlineheight=\baselineskip
+  \endgroup
+  \begingroup
+    \normalfont\small
+    \global\figsubcaptionlineheight=\baselineskip
+  \endgroup
+}
+\ifdefempty{\fig@template}
+  {\IfFileExists{pubify-template.tex}{\figdebugmessage{loading default template pubify-template.tex}\input{pubify-template.tex}}{\figdebugmessage{no default template found}}}
+  {\figdebugmessage{loading explicit template}\input{\fig@template}}
+
+\captionsetup[subfigure]{skip=\figsubcaptionskip,belowskip=0pt}
+
+\AtBeginDocument{%
+  \figcapturetypography%
+  \figdebugmessage{base-fontsize-pt=\figbasefontsizept}%
+  \figdebugskip{caption-lineheight}{\figcaptionlineheight}%
+  \figdebugskip{colgap}{\figcolgap}%
+  \figdebugskip{caption-allowance}{\figcaptionallowance}%
+  \figdebugskip{fullpage-height}{\figfullpageheight}%
+  \figdebugskip{stack-height}{\figstackheight}%
+  \figdebugskip{subcaption-allowance}{\figsubcaptionallowance}%
+  \figdebugskip{subcaption-lineheight}{\figsubcaptionlineheight}%
+  \figdebugskip{subcaption-skip}{\figsubcaptionskip}%
+  \figdebugskip{row-gap}{\figrowgap}%
+  \figdebugskip{caption-skip}{\figcaptionskip}%
+  \figdebugskip{post-caption-skip}{\figpostcaptionskip}%
+}
+
+\ExplSyntaxOn
+\cs_new:Npn \fig_dim_to_in:n #1
+  {
+    \fp_eval:n { round( \dim_to_fp:n {#1} / \dim_to_fp:n {1in}, 5 ) }
+  }
+\cs_new:Npn \fig_dim_to_pt:n #1
+  {
+    \fp_eval:n { round( \dim_to_fp:n {#1} / \dim_to_fp:n {1pt}, 5 ) }
+  }
+\cs_new:Npn \fig_ratio_to_decimal:n #1
+  {
+    \fp_eval:n { round( \dim_to_fp:n {#1} / \dim_to_fp:n {\textwidth}, 5 ) }
+  }
+\cs_new_protected:Npn \fig_print_layout_spec:
+  {
+    \tl_set:Nx \l_tmpa_tl
+      {
+        FIG_DOCUMENT_INFO~=~\c_left_brace_str
+        "textwidth_in":~\fig_dim_to_in:n { \textwidth },~
+        "textheight_in":~\fig_dim_to_in:n { \textheight },~
+        "base_fontsize_pt":~\figbasefontsizept,~
+        "caption_lineheight_pt":~\fig_dim_to_pt:n { \figcaptionlineheight },~
+        "subcaption_lineheight_pt":~\fig_dim_to_pt:n { \figsubcaptionlineheight }
+        \c_right_brace_str
+      }
+    \par\noindent
+    \begingroup
+    \ttfamily\small
+    \parbox{\linewidth}{\raggedright\tl_to_str:N \l_tmpa_tl}
+    \par
+    \endgroup
+    \vspace{\baselineskip}
+  }
+\cs_new_protected:Npn \fig_print_layout_spec_visible:
+  {
+    \par\noindent\ttfamily\small
+    \fig_print_layout_spec:
+  }
+\ExplSyntaxOff
+
+\ExplSyntaxOn
+\NewDocumentCommand{\figprintlayoutspec}{}{\fig_print_layout_spec:}
+\ExplSyntaxOff
+
+\newcommand{\figdebugbox}[2]{%
+  \iffig@debug
+    \typeout{PUBIFY-DEBUG #1 ht=\the\ht#2 dp=\the\dp#2 wd=\the\wd#2}%
+  \fi
+}
+
+\newcommand{\figdebugskip}[2]{%
+  \iffig@debug
+    \typeout{PUBIFY-DEBUG #1=\the#2}%
+  \fi
+}
+
+\newcommand{\figincludegraphics}[1]{%
+  \iffig@debug
+    {\setlength{\fboxsep}{0pt}\fbox{\includegraphics[draft=false]{#1}}}%
+  \else
+    \includegraphics[draft=false]{#1}%
+  \fi
+}
+
+\NewDocumentCommand{\figfloat}{ O{tbp} m o o }{%
+  \begin{figure}[#1]
+    \captionsetup{skip=0pt}%
+    \centering
+    #2
+    \par\nointerlineskip
+    \IfValueT{#3}{\vspace*{\figcaptionskip}\caption{#3}\vspace*{\figpostcaptionskip}}%
+    \IfValueT{#4}{\label{#4}}%
+  \end{figure}
+}
+
+\makeatletter
+\NewDocumentCommand{\figplainbox}{ m m }{%
+  \begin{minipage}[t]{#1}%
+    \vspace{0pt}\centering
+    \figincludegraphics{#2}%
+  \end{minipage}%
+}
+
+\NewDocumentCommand{\figcaptionedbox}{ m m m m }{%
+  \setbox0=\vbox{%
+    \hsize=#1\relax
+    \linewidth=\hsize
+    \offinterlineskip
+    \setbox4=\hbox to \hsize{\hfil\figincludegraphics{#2}\hfil}%
+    \figdebugbox{image-row}{4}%
+    \box4
+    \figdebugskip{subcaption-skip}{\figsubcaptionskip}%
+    \vskip\figsubcaptionskip
+    \setbox2=\vbox{%
+      \hsize=\linewidth
+      \linewidth=\hsize
+      \normalbaselines
+      \setcaptionsubtype\relax
+      \captionsetup{skip=0pt,belowskip=0pt}%
+      \centering
+      \phantomsubcaption
+      \ifblank{#4}{}{\label{#4}}%
+      \subcaptiontext{#3}\par
+    }%
+    \figdebugbox{subcaption-text}{2}%
+    \box2
+  }%
+  \figdebugbox{captioned-panel}{0}%
+  \box0
+}
+
+\NewDocumentCommand{\figbox}{ m m o o }{%
+  \def\fig@caption{}%
+  \IfValueT{#3}{\ifblank{#3}{}{\def\fig@caption{#3}}}%
+  \def\fig@label{}%
+  \IfValueT{#4}{\ifblank{#4}{}{\def\fig@label{#4}}}%
+
+  \leavevmode
+  \ifx\fig@caption\@empty
+    \figplainbox{#1}{#2}%
+  \else
+    \figcaptionedbox{#1}{#2}{\fig@caption}{\fig@label}%
+  \fi
+}
+
+\NewDocumentCommand{\fig}{ m o o }{%
+  \figbox{\figW}{#1}[#2][#3]%
+}
+
+\newcommand{\figitem}[1]{%
+  \figitem@i#1\figitem@stop{#1}%
+}
+\def\figitem@i#1#2\figitem@stop#3{%
+  \ifx#1\fig
+    #3%
+  \else
+    \figbox{\figW}{#3}%
+  \fi
+}
+\makeatother
+
+\newcommand{\figgap}{
+    \par\nointerlineskip\vspace*{\figrowgap}%
+}
+
+\newcommand{\figrow}[2]{
+  \par\nointerlineskip
+  \begingroup\def\figW{#1}%
+    \setbox0=\vbox{\hbox to \textwidth{\hfil#2\hfil}}%
+    \figdebugbox{row}{0}%
+    \box0
+  \endgroup
+  \par\nointerlineskip
+}
+
+\newcommand{\figstackrow}[1]{%
+  \figrow{\textwidth}{%
+    \figitem{#1}%
+  }%
+}
+
+\newcommand{\figstackrowtwocol}[2]{%
+  \figrow{\dimexpr(\textwidth - \figcolgap)/2\relax}{%
+    \figitem{#1}\hspace{\figcolgap}%
+    \figitem{#2}%
+  }%
+}
+
+\newcommand{\figstackrowthreecol}[3]{%
+  \figrow{\dimexpr(\textwidth - 2\figcolgap)/3\relax}{%
+    \figitem{#1}\hspace{\figcolgap}%
+    \figitem{#2}\hspace{\figcolgap}%
+    \figitem{#3}%
+  }%
+}
+
+\newcommand{\figstackrowfourcol}[4]{%
+  \figrow{\dimexpr(\textwidth - 3\figcolgap)/4\relax}{%
+    \figitem{#1}\hspace{\figcolgap}%
+    \figitem{#2}\hspace{\figcolgap}%
+    \figitem{#3}\hspace{\figcolgap}%
+    \figitem{#4}%
+  }%
+}
+
+\newcommand{\figone}[1]{%
+  \figstackrow{#1}%
+}
+
+\let\figonewide\figone
+
+\newcommand{\figtwodirect}[2]{%
+  \figstackrow{#1}%
+  \figgap%
+  \figstackrow{#2}%
+}
+
+\newcommand{\figthreedirect}[3]{%
+  \figstackrow{#1}%
+  \figgap%
+  \figstackrow{#2}%
+  \figgap%
+  \figstackrow{#3}%
+}
+
+\newcommand{\figfourdirect}[4]{%
+  \figstackrowtwocol{#1}{#2}%
+  \figgap%
+  \figstackrowtwocol{#3}{#4}%
+}
+
+\newcommand{\figtwo}[2]{%
+  \figtwodirect{#1}{#2}%
+}
+
+\newcommand{\figtwowide}[2]{%
+  \figstackrowtwocol{#1}{#2}%
+}
+
+\newcommand{\figthree}[3]{%
+  \figthreedirect{#1}{#2}{#3}%
+}
+
+\newcommand{\figthreewide}[3]{%
+  \figstackrowthreecol{#1}{#2}{#3}%
+}
+
+\newcommand{\figfour}[4]{%
+  \figfourdirect{#1}{#2}{#3}{#4}%
+}
+
+
+\newcommand{\figsix}[3]{%
+  \expandafter\figstackrowtwocol#1%
+  \figgap%
+  \expandafter\figstackrowtwocol#2%
+  \figgap%
+  \expandafter\figstackrowtwocol#3%
+}
+
+\newcommand{\figsixwide}[2]{%
+  \expandafter\figstackrowthreecol#1%
+  \expandafter\figstackrowthreecol#2%
+}
+
+\newcommand{\fignine}[3]{%
+  \expandafter\figstackrowthreecol#1%
+  \figgap%
+  \expandafter\figstackrowthreecol#2%
+  \figgap%
+  \expandafter\figstackrowthreecol#3%
+}
+
+\newcommand{\figtwelve}[4]{%
+  \expandafter\figstackrowthreecol#1%
+  \figgap%
+  \expandafter\figstackrowthreecol#2%
+  \figgap%
+  \expandafter\figstackrowthreecol#3%
+  \figgap%
+  \expandafter\figstackrowthreecol#4%
+}
+
+\newcommand{\figtwelvewide}[3]{%
+  \expandafter\figstackrowfourcol#1%
+  \figgap%
+  \expandafter\figstackrowfourcol#2%
+  \figgap%
+  \expandafter\figstackrowfourcol#3%
+}
+
+\newcommand{\figfifteen}[5]{%
+  \expandafter\figstackrowthreecol#1%
+  \figgap%
+  \expandafter\figstackrowthreecol#2%
+  \figgap%
+  \expandafter\figstackrowthreecol#3%
+  \figgap%
+  \expandafter\figstackrowthreecol#4%
+  \figgap%
+  \expandafter\figstackrowthreecol#5%
+}
+
+\newcommand{\figsixteen}[4]{%
+  \expandafter\figstackrowfourcol#1%
+  \figgap%
+  \expandafter\figstackrowfourcol#2%
+  \figgap%
+  \expandafter\figstackrowfourcol#3%
+  \figgap%
+  \expandafter\figstackrowfourcol#4%
+}
+
+\newcommand{\figtwenty}[5]{%
+  \expandafter\figstackrowfourcol#1%
+  \figgap%
+  \expandafter\figstackrowfourcol#2%
+  \figgap%
+  \expandafter\figstackrowfourcol#3%
+  \figgap%
+  \expandafter\figstackrowfourcol#4%
+  \figgap%
+  \expandafter\figstackrowfourcol#5%
+}

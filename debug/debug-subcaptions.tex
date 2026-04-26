@@ -1,0 +1,29 @@
+\documentclass[12pt,letterpaper]{article}
+
+\usepackage{graphicx}
+\graphicspath{{../}}
+\usepackage[debug]{pubify}
+
+\begin{document}
+
+\section*{Subcaption Debug}
+
+\figfloat
+    {
+        \figtwowide
+        {\fig{fig-example-twowide-1-subcaptions}[Left][fig:debug-twowide-left]}
+        {\fig{fig-example-twowide-2-subcaptions}[Right][fig:debug-twowide-right]}
+    }
+    [\textbf{twowide (1x2; subcaptions):} Minimal debug case.]
+    [fig:debug-twowide]
+
+\figfloat
+    {
+        \figtwo
+        {\fig{fig-example-two-2-subcaptions}[Top][fig:debug-two-top]}
+        {\fig{fig-example-two-2-subcaptions}[Bottom][fig:debug-two-bottom]}
+    }
+    [\textbf{two (2x1; subcaptions):} Minimal debug case.]
+    [fig:debug-two]
+
+\end{document}

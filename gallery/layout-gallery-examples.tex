@@ -1,0 +1,203 @@
+\section*{Figure Examples}
+
+\lipsum[1]
+
+\figfloat[b!]
+    {\figonewide{fig-example-onewide}}
+    [\textbf{onewide:} \lipsum[1][1-4]]
+    [fig:test1w]
+
+\figfloat
+    {\figone{fig-example-one}}
+    [\textbf{one:} \lipsum[1][1-4]]
+    [fig:test1]
+
+\figfloat
+    {\figone{fig-example-one-high}}
+    [\textbf{one (tall):} \lipsum[1][1-5]]
+    [fig:test1b]
+
+\lipsum[3-4]
+
+\figfloat
+    {\figtwowide{fig-example-twowide-1}{fig-example-twowide-2}}
+    [\textbf{twowide (1x2):} \lipsum[1][1-4]]
+    [fig:test2]
+
+\lipsum[5-6]
+
+\figfloat
+    {
+        \figtwowide
+        {\fig{fig-example-twowide-1-subcaptions}[Left][fig:test2left]}
+        {\fig{fig-example-twowide-2-subcaptions}[Right][fig:test2right]}
+    }
+    [\textbf{twowide (1x2; subcaptions):} \lipsum[1][1-4]]
+    [fig:test2b]
+
+\lipsum[7-8]
+
+\figfloat
+    {
+        \figthreewide
+        {fig-example-threewide}
+        {fig-example-threewide}
+        {fig-example-threewide}
+    }
+    [\textbf{threewide (1x3):} \lipsum[1][1-4]]
+    [fig:test3]
+
+\lipsum[9-10]
+
+\figfloat
+    {
+        \figthreewide
+        {\fig{fig-example-threewide-subcaptions}[Left][fig:test3left]}
+        {\fig{fig-example-threewide-subcaptions}[Centre][fig:test3centre]}
+        {\fig{fig-example-threewide-subcaptions}[Right][fig:test3right]}
+    }
+    [\textbf{threewide (1x3; subcaptions):} \lipsum[1][1-4]]
+    [fig:test3b]
+
+\lipsum[11]
+
+\figfloat
+    {\figtwo{fig-example-two-2}{fig-example-two-2}}
+    [\textbf{two (2x1):} \lipsum[1][1-4]]
+    [fig:test4]
+
+\figfloat
+    {
+        \figtwo
+        {\fig{fig-example-two-2-subcaptions}[Top][fig:test3top]}
+        {\fig{fig-example-two-2-subcaptions}[Bottom][fig:test3bottom]}
+    }
+    [\textbf{two (2x1; subcaptions):} \lipsum[1][1-4]]
+    [fig:test4b]
+
+\figfloat
+    {\figtwo{fig-example-two-1}{fig-example-two-2-fixedaspect}}
+    [\textbf{two (2x1; fixed aspect):} \lipsum[1][1-4]]
+    [fig:test4c]
+
+\figfloat
+    {\figthree{fig-example-three-2}{fig-example-three-2-fixedaspect}{fig-example-three-2}}
+    [\textbf{three (3x1; fixed aspect):} \lipsum[1][1-5]]
+    [fig:test5]
+
+\figfloat
+    {
+        \figfour
+        {fig-example-four-1}
+        {fig-example-four-2}
+        {fig-example-four-1}
+        {fig-example-four-2}
+    }
+    [\textbf{four (2x2):} \lipsum[1][1-5]]
+    [fig:test6]
+
+\figfloat
+    {
+        \figfour
+        {\fig{fig-example-four-2-subcaptions}[Top Left][fig:test6topleft]}
+        {\fig{fig-example-four-2-subcaptions}[Top Right][fig:test6topright]}
+        {\fig{fig-example-four-2-subcaptions}[Bottom Left][fig:test6bottomleft]}
+        {\fig{fig-example-four-2-subcaptions}[Bottom Right][fig:test6bottomright]}
+    }
+    [\textbf{four (2x2; subcaptions):} \lipsum[1][1-5]]
+    [fig:test6b]
+
+\figfloat
+    {
+        \figsix
+        {{fig-example-six-1}{fig-example-six-2}}
+        {{fig-example-six-1}{fig-example-six-2}}
+        {{fig-example-six-1}{fig-example-six-2}}
+    }
+    [\textbf{six (3x2):} \lipsum[1][1-5]]
+    [fig:test7]
+
+\figfloat
+    {
+        \figsixwide
+        {{fig-example-sixwide}{fig-example-sixwide}{fig-example-sixwide}}
+        {{fig-example-sixwide}{fig-example-sixwide}{fig-example-sixwide}}
+    }
+    [\textbf{sixwide (2x3):} \lipsum[1][1-5]]
+    [fig:test8]
+
+\figfloat
+    {
+        \fignine
+        {{fig-example-nine-1}{fig-example-nine-1}{fig-example-nine-1}}
+        {{fig-example-nine-1}{fig-example-nine-1}{fig-example-nine-1}}
+        {{fig-example-nine-1}{fig-example-nine-1}{fig-example-nine-1}}
+    }
+    [\textbf{nine (3x3; square):} \lipsum[1][1-4]]
+    [fig:test9]
+
+\figfloat
+    {
+        \fignine
+        {{fig-example-nine-2}{fig-example-nine-2}{fig-example-nine-2}}
+        {{fig-example-nine-2}{fig-example-nine-2}{fig-example-nine-2}}
+        {{fig-example-nine-2}{fig-example-nine-2}{fig-example-nine-2}}
+    }
+    [\textbf{nine (3x3; tall):} \lipsum[1][1-5]]
+    [fig:test9b]
+
+\figfloat
+    {
+        \figtwelve
+        {{fig-example-twelve}{fig-example-twelve}{fig-example-twelve}}
+        {{fig-example-twelve}{fig-example-twelve}{fig-example-twelve}}
+        {{fig-example-twelve}{fig-example-twelve}{fig-example-twelve}}
+        {{fig-example-twelve}{fig-example-twelve}{fig-example-twelve}}
+    }
+    [\textbf{twelve (4x3):} \lipsum[1][1-5]]
+    [fig:test10]
+
+\figfloat
+    {
+        \figtwelvewide
+        {{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}}
+        {{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}}
+        {{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}{fig-example-twelvewide}}
+    }
+    [\textbf{twelvewide (3x4):} \lipsum[1][1-5]]
+    [fig:test11]
+
+\figfloat
+    {
+        \figfifteen
+        {{fig-example-fifteen}{fig-example-fifteen}{fig-example-fifteen}}
+        {{fig-example-fifteen}{fig-example-fifteen}{fig-example-fifteen}}
+        {{fig-example-fifteen}{fig-example-fifteen}{fig-example-fifteen}}
+        {{fig-example-fifteen}{fig-example-fifteen}{fig-example-fifteen}}
+        {{fig-example-fifteen}{fig-example-fifteen}{fig-example-fifteen}}
+    }
+    [\textbf{fifteen (5x3):} \lipsum[1][1-5]]
+    [fig:test12]
+
+\figfloat
+    {
+        \figsixteen
+        {{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}}
+        {{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}}
+        {{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}}
+        {{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}{fig-example-sixteen}}
+    }
+    [\textbf{sixteen (4x4):} \lipsum[1][1-5]]
+    [fig:test13]
+
+\figfloat
+    {
+        \figtwenty
+        {{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}}
+        {{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}}
+        {{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}}
+        {{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}}
+        {{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}{fig-example-twenty}}
+    }
+    [\textbf{twenty (5x4):} \lipsum[1][1-5]]
+    [fig:test14]
