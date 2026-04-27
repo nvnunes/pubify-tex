@@ -4,7 +4,13 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from typing import Any
 
-from .export import ResolvedStyle, save_fig
+from .export import (
+    PUBIFY_TEX_FONT_FAMILY,
+    PUBIFY_TEX_FONT_SERIF,
+    PUBIFY_TEX_MATHTEXT_FONTSET,
+    ResolvedStyle,
+    save_fig,
+)
 from .layout import (
     DEFAULT_TEMPLATE,
     latex_layout_geometry,
@@ -24,9 +30,16 @@ def pubify_rc_context(
 ) -> Iterator[None]:
     """Apply the Matplotlib construction rc context for a pubify TeX template."""
 
+    tex_rcparams = {
+        "font.serif": list(PUBIFY_TEX_FONT_SERIF),
+        "mathtext.fontset": PUBIFY_TEX_MATHTEXT_FONTSET,
+    }
+    if extra_rcparams:
+        tex_rcparams.update(extra_rcparams)
     with _pubify_mpl_rc_context(
         style=_matplotlib_style_from_template(style),
-        extra_rcparams=extra_rcparams,
+        extra_rcparams=tex_rcparams,
+        font_family=PUBIFY_TEX_FONT_FAMILY,
     ):
         yield
 

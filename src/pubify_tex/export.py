@@ -22,6 +22,9 @@ PUBIFY_LATEX_PREAMBLE = r"""
 \usepackage{amsmath}
 \usepackage{amssymb}
 """
+PUBIFY_TEX_FONT_FAMILY = "serif"
+PUBIFY_TEX_FONT_SERIF = ["Latin Modern Roman", "LMRoman10"]
+PUBIFY_TEX_MATHTEXT_FONTSET = "cm"
 
 
 def save_fig(
@@ -89,7 +92,11 @@ def save_fig(
     else:
         parent_dir.mkdir(parents=True, exist_ok=True)
 
-    export_rcparams = {"text.latex.preamble": PUBIFY_LATEX_PREAMBLE}
+    export_rcparams = {
+        "font.serif": list(PUBIFY_TEX_FONT_SERIF),
+        "mathtext.fontset": PUBIFY_TEX_MATHTEXT_FONTSET,
+        "text.latex.preamble": PUBIFY_LATEX_PREAMBLE,
+    }
     if extra_rcparams:
         export_rcparams.update(extra_rcparams)
 
@@ -107,6 +114,7 @@ def save_fig(
         skip_clone=skip_clone,
         extra_rcparams=export_rcparams,
         text_usetex=True,
+        font_family=PUBIFY_TEX_FONT_FAMILY,
         prepare_export=prepare_export,  # type: ignore[arg-type]
     ) as fig_export:
         bbox = figure_tight_bbox(fig_export)

@@ -5,6 +5,10 @@
 document-aware `save_fig(...)` behavior by composing the Matplotlib-only
 preparation API in `pubify-mpl`.
 
+`pubify-tex` also owns the TeX publication figure typography profile. It passes
+Latin Modern serif fallbacks, Computer Modern mathtext, `text.usetex=True`, and
+the package LaTeX preamble explicitly into `pubify-mpl`.
+
 ## Install
 
 ```bash
